@@ -1,7 +1,9 @@
 package campaign.controllers;
 
+import campaign.dto.CampaignNotFoundException;
 import campaign.dto.CampaignRequest;
 import campaign.dto.CampaignUpdate;
+import campaign.exceptions.UnknownQueryParamException;
 import campaign.repositories.model.CampaignEntity;
 import campaign.services.CampaignService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +40,12 @@ public class CampaignController {
         return ResponseEntity.status(HttpStatus.OK).body(campaignService.findBy(queryParams));
     }
 
-    @PutMapping("/{campaignId}")
-    public ResponseEntity<CampaignEntity> updateCampaign(@PathVariable String campaignId, @RequestBody CampaignUpdate campaignUpdate) {
-        log.info("About to update campaign: {} with new body: {}", campaignId,campaignUpdate);
-        CampaignEntity updatedCampaignEntity = campaignService.updateCampaign(campaignId, campaignUpdate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedCampaignEntity);
-    }
+//    @PutMapping("/{campaignId}")
+//    public ResponseEntity<CampaignEntity> updateCampaign(@PathVariable String campaignId, @RequestBody CampaignUpdate campaignUpdate) {
+//        log.info("About to update campaign: {} with new body: {}", campaignId,campaignUpdate);
+//        CampaignEntity updatedCampaignEntity = campaignService.updateCampaign(campaignId, campaignUpdate);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(updatedCampaignEntity);
+//    }
 
     @DeleteMapping("/{campaignId}")
     public ResponseEntity<Void> deleteCampaign(@PathVariable String campaignId) {
@@ -58,8 +60,8 @@ public class CampaignController {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(UpdateFailureException.class)
-    public void handleUnknownUpdateCriteria(RuntimeException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-    }
+//    @ExceptionHandler(UpdateFailureException.class)
+//    public void handleUnknownUpdateCriteria(RuntimeException e, HttpServletResponse response) throws IOException {
+//        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
+//    }
 }
