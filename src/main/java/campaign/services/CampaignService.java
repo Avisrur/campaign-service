@@ -33,46 +33,6 @@ public class CampaignService {
         }
         throw new UnknownQueryParamException(String.format("Unable to retrieve posts by these query params '%s'", queryParams));
     }
-
-    public PostEntity updatePost(String postId, PostUpdate newPost) {
-        return updatePostBy("newText", postId, newPost);
-    }
-
-    public void deleteById(String postId) {
-        if (this.postsRepository.deleteByPostId(postId) == 0) {
-            throw new PostNotFoundException(String.format("Unable to delete post with post ID '%s' because it is not found", postId));
-        }
-    }
-
-    private PostEntity updatePostBy(String updateBy, String postId, PostUpdate newPost) {
-        PostEntity postToUpdate = getPostByPostId(postId);
-        if (postToUpdate != null) {
-            return handleUpdatePost(updateBy, postToUpdate, newPost);
-        } else {
-            throw new PostNotFoundException(String.format("Unable to update post with post ID '%s' because it is not found", postId));
-        }
-    }
-
-    private PostEntity handleUpdatePost(String updateBy, PostEntity postToUpdate, PostUpdate newPost) {
-        if (updateBy.equals("like")) {
-            return updatePostLikes(postToUpdate);
-        }
-        if (updateBy.equals("newText")) {
-            return updatePostWithNewText(postToUpdate, newPost);
-        }
-        throw new UpdateFailureException(String.format("Unable to update post because of unknown criteria '%s'", updateBy));
-    }
-
-    private PostEntity updatePostLikes(PostEntity postToUpdate) {
-        postToUpdate.setLikes(postToUpdate.getLikes() + 1);
-        return savePost(postToUpdate);
-    }
-
-    private PostEntity updatePostWithNewText(PostEntity postToUpdate, PostUpdate newPost) {
-        postToUpdate.setBody(newPost.getBody());
-        return savePost(postToUpdate);
-    }
-
     private CampaignEntity getCampaignByCampaignId(String campaignId) {
         return campaignRepository.findByCampaignId(campaignId);
     }
