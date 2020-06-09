@@ -1,16 +1,44 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.5.RELEASE")
+    }
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
-sourceCompatibility = 1.8
+bootJar {
+    baseName = 'campain-service'
+    version =  '0.1.0'
+}
 
 repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    //mongo
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb:2.2.6.RELEASE'
+    // Groovy test
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.7'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'org.skyscreamer:jsonassert:1.4.0'
+    testCompile 'com.github.tomakehurst:wiremock-standalone:2.15.0'
+    testCompile group: 'net.javacrumbs.json-unit', name: 'json-unit-assertj', version: '2.0.0.RC1'
 }
