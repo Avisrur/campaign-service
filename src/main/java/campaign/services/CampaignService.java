@@ -31,7 +31,7 @@ public class CampaignService {
         if (queryParams.isEmpty()) {
             return campaignRepository.findAll();
         }
-        throw new UnknownQueryParamException(String.format("Unable to retrieve posts by these query params '%s'", queryParams));
+        throw new UnknownQueryParamException(String.format("Unable to retrieve campaigns by these query params '%s'", queryParams));
     }
     private CampaignEntity getCampaignByCampaignId(String campaignId) {
         return campaignRepository.findByCampaignId(campaignId);
