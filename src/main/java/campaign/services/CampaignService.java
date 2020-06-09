@@ -1,5 +1,6 @@
 package campaign.services;
 
+import campaign.dto.CampaignNotFoundException;
 import campaign.exceptions.UnknownQueryParamException;
 import campaign.repositories.CampaignRepository;
 import campaign.repositories.model.CampaignEntity;
@@ -33,6 +34,13 @@ public class CampaignService {
         }
         throw new UnknownQueryParamException(String.format("Unable to retrieve campaigns by these query params '%s'", queryParams));
     }
+
+    public void deleteById(String campaignId) {
+        if (campaignRepository.deleteByCampaignId(campaignId) == 0) {
+            throw new CampaignNotFoundException(String.format("Unable to delete campaign with campaign ID '%s' because it is not found", campaignId));
+        }
+    }
+
     private CampaignEntity getCampaignByCampaignId(String campaignId) {
         return campaignRepository.findByCampaignId(campaignId);
     }
